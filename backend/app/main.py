@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from backend.app.core.config import settings
 
+app = FastAPI()
 
 @app.get("/api/v1/health")
 def health() -> dict[str, str]:
