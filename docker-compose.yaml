@@ -1,0 +1,47 @@
+services:
+  apartment_db:
+    image: postgres:18
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - TZ=GMT+3
+      - PGTZ=GMT+3
+      - POSTGRES_INITDB_ARGS= --encoding=UTF8 --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8
+    volumes:
+      - pgdata:/var/lib/postgresql
+    ports:
+      - "127.0.0.1:${DB_PORT}:5432"
+    networks:
+      - app-network
+
+#  pgadmin:
+#    image: dpage/pgadmin4:8.14
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: admin@example.com
+#      PGADMIN_DEFAULT_PASSWORD: secure_password
+#    volumes:
+#      - pgadmin_data:/var/lib/pgadmin
+#    ports:
+#      - "8080:80"
+#    networks:
+#      - app-network
+
+#  app:
+#    build: ./my-app
+#    environment:
+#      DATABASE_URL: postgresql://postgres:{user_password}@apartment_db:{db_port}/apartment
+#    networks:
+#      - app-network
+#    depends_on:
+#      - apartment_db
+
+volumes:
+  pgdata:
+  pgadmin_data:
+
+networks:
+  app-network:
+    driver: bridge
+
+#docker run --name apartment -p 5432:5432 -e POSTGRES_PASSWORD=secret -v pgdata:/var/lib/postgresql/data -v ./postgres/init-db:/docker-entrypoint-initdb.d -e CREATE_DATABASES=apartment -e TZ=GMT+3 -e PGTZ=GMT+3 -d postgres:15.1 --max_prepared_transactions=100

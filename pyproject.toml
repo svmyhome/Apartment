@@ -1,0 +1,15 @@
+[project]
+name = "renovation-planner-api"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.141,<0.142",
+    "uvicorn[standard]>=0.52,<0.53",
+    "SQLAlchemy>=2.0.51,<3",
+    "Alembic>=1.18,<2",
+    "Psycopg[binary]>=3,<4",
+    "pydantic-settings>=2.14,<3",
+    "Pytest>=9,<10",
+    "HTTPX>=0.28,<0.29",
+    "Flask>=3.1,<4"
+]
