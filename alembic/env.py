@@ -6,6 +6,7 @@ from sqlalchemy import pool
 
 from backend.app.core.config import settings
 from backend.app.db.base import Base
+from backend.app.models.account import Account
 
 
 # this is the Alembic Config object, which provides
