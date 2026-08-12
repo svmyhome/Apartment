@@ -24,7 +24,7 @@ images/
 │   ├── 03-project-overview/
 │   ├── 04-room/
 │   ├── 05-purchase/
-│   ├── 06-expenses/
+│   ├── 06-budget/
 │   └── 07-collaboration/
 ├── 02-android/          # Этап 2, только .gitkeep
 └── 03-ios/              # Этап 3, только .gitkeep
@@ -57,7 +57,7 @@ Warm Interior и Graphite Hi-Tech — две цветовые темы одно�
 - `03-project-overview` — дашборд проекта.
 - `04-room` — комната и покупки.
 - `05-purchase` — создание и просмотр покупки.
-- `06-expenses` — траты и аналитика.
+- `06-budget` — бюджет, траты и аналитика.
 
 ### Web после MVP
 
