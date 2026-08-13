@@ -12,3 +12,27 @@ dependencies = [
     "Pytest>=9,<10",
     "HTTPX>=0.28,<0.29"
 ]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: тест требует отдельную PostgreSQL test database",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.6.2",
+    "ruff>=0.16,<0.17",
+]
