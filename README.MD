@@ -30,4 +30,30 @@
 
 ## Инфраструктура
 
-Docker Compose, PostgreSQL и миграции будут добавлены на этапе подготовки Web-MVP. Конфигурации и скриптов запуска в репозитории пока нет.
+В репозитории есть Docker Compose с PostgreSQL (`apartment_db`) и FastAPI (`api`). API
+доступен на `http://localhost:8000`, а проверка готовности — на
+`http://localhost:8000/api/v1/health`.
+
+Для локального запуска нужен Docker Desktop:
+
+```bash
+cp .env.example .env
+docker compose up --build -d
+curl -i http://localhost:8000/api/v1/health
+```
+
+Остановка окружения без удаления данных PostgreSQL:
+
+```bash
+docker compose down
+```
+
+Проверки Python-кода и unit-тесты выполняются из корня проекта:
+
+```bash
+uv run pytest -m "not integration"
+uv run ruff check .
+uv run ruff format --check .
+```
+
+Web-клиент и CI будут добавлены следующими этапами.
