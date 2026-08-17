@@ -26,13 +26,18 @@
 ## Документация
 
 - [План разработки](plan/PLAN.MD) — этапы, стек и модель данных.
+- [Этап 1.2: собрать основу](plan/1.2-СОБРАТЬ-ОСНОВУ.MD) — подробный чек-лист инфраструктуры и CI.
+- [Runbook](plan/RUNBOOK.MD) — конфигурация, запуск, тесты и ограничения production-режима.
+- [Контракт API](plan/API.MD) — правила маршрутов и доступа.
+- [Документация web-клиента](frontend/README.md) — локальный запуск React/Vite.
 - [Дизайн](design/DESIGN.MD) — макеты и структура дизайн-материалов.
 
 ## Инфраструктура
 
-В репозитории есть Docker Compose с PostgreSQL (`apartment_db`) и FastAPI (`api`). API
-доступен на `http://localhost:8000`, а проверка готовности — на
-`http://localhost:8000/api/v1/health`.
+В репозитории есть Docker Compose с PostgreSQL (`apartment_db`), FastAPI (`api`)
+и Vite-клиентом (`web`). API доступен на `http://localhost:8000`, health-check —
+на `http://localhost:8000/api/v1/health`, а web-клиент — на
+`http://localhost:5173`.
 
 Для локального запуска нужен Docker Desktop:
 
@@ -41,6 +46,9 @@ cp .env.example .env
 docker compose up --build -d
 curl -i http://localhost:8000/api/v1/health
 ```
+
+Затем откройте `http://localhost:5173`: временная страница должна показать
+статус «API доступен».
 
 Остановка окружения без удаления данных PostgreSQL:
 
@@ -56,4 +64,5 @@ uv run ruff check .
 uv run ruff format --check .
 ```
 
-Web-клиент и CI будут добавлены следующими этапами.
+Web-клиент уже включён в Compose. Автоматическая проверка в GitHub Actions
+описана в плане и будет добавлена отдельным следующим шагом.

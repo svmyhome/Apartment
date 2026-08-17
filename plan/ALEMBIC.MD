@@ -2,7 +2,9 @@
 
 Alembic хранит историю изменений схемы PostgreSQL в файлах `alembic/versions/`. Миграция описывает переход схемы вперёд в `upgrade()` и обратный переход в `downgrade()`.
 
-В этом проекте Alembic берёт строку подключения из `settings.database_url` в `alembic/env.py`. Значения для неё читаются из `.env`; пароль в `alembic.ini` не хранится.
+В этом проекте Alembic получает строку подключения в `alembic/env.py`. Для
+обычных команд используется `get_settings().database_url` со значениями из
+`.env`; пароль в `alembic.ini` не хранится.
 
 ## Перед началом
 
@@ -29,6 +31,24 @@ docker compose exec apartment_db psql -U vladimir -d apartment
 
 Для выхода используйте `\q`.
 
+## Работа с тестовой БД
+
+Если в окружении задана `TEST_DATABASE_URL`, Alembic использует её вместо
+обычного набора `DB_*`. Это нужно для интеграционных тестов и проверки схемы
+на отдельной базе. Имя БД в URL обязательно оканчивается на `_test`: иначе
+`get_test_database_url()` остановит команду до подключения.
+
+```bash
+export TEST_DATABASE_URL='postgresql+psycopg://postgres:postgres@127.0.0.1:5433/apartment_test'
+uv run alembic current
+uv run alembic check
+```
+
+Выполняйте эти команды в том же терминале, где экспортирована переменная.
+После проверки тестовой БД закройте терминал или выполните
+`unset TEST_DATABASE_URL`, чтобы следующие команды снова работали с обычной
+локальной БД.
+
 ## Создание Alembic и первой миграции
 
 Этот раздел нужен только один раз — когда в проекте ещё нет каталога `alembic/` и файла `alembic.ini`.
@@ -54,11 +74,11 @@ alembic.ini         # техническая конфигурация Alembic
 В `alembic/env.py` нужно передать Alembic URL из единого источника настроек и metadata SQLAlchemy:
 
 ```python
-from backend.app.core.config import settings
+from backend.app.core.config import get_settings
 from backend.app.db.base import Base
 from backend.app.models.account import Account
 
-config.set_main_option("sqlalchemy.url", settings.database_url)
+config.set_main_option("sqlalchemy.url", get_settings().database_url)
 target_metadata = Base.metadata
 ```
 
