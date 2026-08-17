@@ -39,3 +39,34 @@ def test_health_returns_service_unavailable_when_database_is_down(client: TestCl
 
     assert response.status_code == 503
     assert response.json() == {"status": "database_unavailable"}
+
+
+def test_health_allows_vite_origin(client: TestClient) -> None:
+    app.dependency_overrides[check_database] = lambda: None
+
+    response = client.get("/api/v1/health", headers={"Origin": "http://localhost:5173"})
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "http://localhost:5173"
+
+
+def test_health_allows_vite_preflight_request(client: TestClient) -> None:
+    response = client.options(
+        "/api/v1/health",
+        headers={
+            "Origin": "http://localhost:5173",
+            "Access-Control-Request-Method": "GET",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "http://localhost:5173"
+
+
+def test_health_does_not_allow_unknown_origin(client: TestClient) -> None:
+    app.dependency_overrides[check_database] = lambda: None
+
+    response = client.get("/api/v1/health", headers={"Origin": "https://untrusted.example"})
+
+    assert response.status_code == 200
+    assert "access-control-allow-origin" not in response.headers

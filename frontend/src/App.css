@@ -1,0 +1,76 @@
+.page {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.health-card {
+  width: min(100%, 440px);
+  padding: 40px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgb(15 23 42 / 8%);
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(32px, 7vw, 44px);
+  letter-spacing: -0.04em;
+}
+
+.status {
+  margin: 28px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.status--loading {
+  color: #475569;
+}
+
+.status--available {
+  color: #15803d;
+}
+
+.status--unavailable {
+  color: #b91c1c;
+}
+
+button {
+  width: 100%;
+  padding: 12px 18px;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  background: #2563eb;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+button:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
