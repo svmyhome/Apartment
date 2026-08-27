@@ -1,5 +1,7 @@
 # Renovation Planner
 
+[![CI](https://github.com/svmyhome/Apartment/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/svmyhome/Apartment/actions/workflows/ci.yml)
+
 Планировщик ремонта для квартир и домов.
 
 ## Этапы
@@ -64,5 +66,6 @@ uv run ruff check .
 uv run ruff format --check .
 ```
 
-Web-клиент уже включён в Compose. Автоматическая проверка в GitHub Actions
-описана в плане и будет добавлена отдельным следующим шагом.
+Web-клиент уже включён в Compose. GitHub Actions запускает CI на каждый
+`push` и `pull_request`: проверяются backend, миграции PostgreSQL, линтинг и
+production-сборка frontend.
