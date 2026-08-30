@@ -45,6 +45,18 @@ class ResourceNotFoundError(ProblemError):
         )
 
 
+class UnauthorizedError(ProblemError):
+    """Нейтральная ошибка авторизации без раскрытия причины отказа."""
+
+    def __init__(self) -> None:
+        super().__init__(
+            type_name="unauthorized",
+            title="Необходима авторизация",
+            status=401,
+            detail="Недействительные данные авторизации.",
+        )
+
+
 def problem_response(
     problem: ProblemError, *, headers: dict[str, str] | None = None
 ) -> JSONResponse:
