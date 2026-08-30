@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -10,6 +11,11 @@ class Settings(BaseSettings):
     db_password: str
     db_port: int
     db_host: str
+    jwt_secret_key: SecretStr
+    jwt_algorithm: str = "HS256"
+    jwt_issuer: str = "apartment-api"
+    jwt_audience: str = "apartment-web"
+    access_token_expire_seconds: int = 900
 
     @property
     def database_url(self) -> str:
