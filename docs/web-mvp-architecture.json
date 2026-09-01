@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Renovation Planner — Web-MVP",
+    "quality_profile": "showcase",
+    "viewBox": [1320, 720]
+  },
+  "components": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "Пользователь",
+      "sublabel": "браузер",
+      "pos": [50, 310],
+      "size": [150, 66]
+    },
+    {
+      "id": "web",
+      "type": "frontend",
+      "label": "Web-клиент",
+      "sublabel": "React + Vite",
+      "tag": "экраны Web-MVP",
+      "pos": [280, 310],
+      "size": [170, 66]
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "REST API",
+      "sublabel": "FastAPI · /api/v1",
+      "tag": "сценарий ремонта",
+      "pos": [555, 310],
+      "size": [180, 66]
+    },
+    {
+      "id": "jwt",
+      "type": "security",
+      "label": "JWT-аутентификация",
+      "sublabel": "Bearer access token",
+      "pos": [555, 120],
+      "size": [180, 66]
+    },
+    {
+      "id": "services",
+      "type": "backend",
+      "label": "Доменная логика",
+      "sublabel": "проекты · комнаты · покупки",
+      "tag": "владение данными",
+      "pos": [840, 310],
+      "size": [205, 66]
+    },
+    {
+      "id": "overview",
+      "type": "backend",
+      "label": "Обзор и бюджет",
+      "sublabel": "вычисляемые представления",
+      "pos": [870, 515],
+      "size": [190, 66]
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "PostgreSQL",
+      "sublabel": "данные Web-MVP",
+      "tag": "NUMERIC для денег",
+      "pos": [1115, 310],
+      "size": [190, 66]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Приложение Renovation Planner",
+      "wraps": ["web", "api", "jwt", "services", "overview"]
+    }
+  ],
+  "connections": [
+    {
+      "id": "user-web",
+      "from": "user",
+      "to": "web",
+      "label": "интерфейс ремонта",
+      "labelAt": [240, 390],
+      "variant": "emphasis"
+    },
+    {
+      "id": "web-api",
+      "from": "web",
+      "to": "api",
+      "label": "HTTPS · JSON API",
+      "variant": "emphasis"
+    },
+    {
+      "id": "api-jwt",
+      "from": "api",
+      "to": "jwt",
+      "label": "выпуск и проверка токена",
+      "variant": "security"
+    },
+    {
+      "id": "api-services",
+      "from": "api",
+      "to": "services",
+      "label": "auth · profile · проекты",
+      "labelAt": [788, 390],
+      "variant": "emphasis"
+    },
+    {
+      "id": "services-db",
+      "from": "services",
+      "to": "db",
+      "label": "SQL · изоляция владельца",
+      "labelAt": [850, 620]
+    },
+    {
+      "id": "services-overview",
+      "from": "services",
+      "to": "overview",
+      "label": "проектные данные"
+      ,"fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "overview-db",
+      "from": "overview",
+      "to": "db",
+      "label": "расчёт расходов и остатка",
+      "labelAt": [1120, 480]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Пользовательский путь",
+      "items": ["Регистрация и вход", "Проект → комнаты → покупки", "Обзор расходов и бюджета"]
+    },
+    {
+      "dot": "emerald",
+      "title": "Правила MVP",
+      "items": ["Ресурсы принадлежат текущему аккаунту", "Деньги — десятичные строки и NUMERIC", "Обзор и бюджет не требуют отдельных таблиц"]
+    },
+    {
+      "dot": "rose",
+      "title": "Доступ",
+      "items": ["Публичны: health, регистрация, вход", "Остальные операции защищены Bearer JWT"]
+    }
+  ]
+}
