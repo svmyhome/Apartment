@@ -57,6 +57,16 @@ class UnauthorizedError(ProblemError):
         )
 
 
+class RoomHasPurchasesError(ProblemError):
+    def __init__(self) -> None:
+        super().__init__(
+            type_name="room-has-purchases",
+            title="Комната содержит покупки",
+            status=409,
+            detail="Нельзя удалить комнату, пока к ней привязаны покупки.",
+        )
+
+
 def problem_response(
     problem: ProblemError, *, headers: dict[str, str] | None = None
 ) -> JSONResponse:

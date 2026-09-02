@@ -43,6 +43,12 @@ jobs:
       - run: uv run pytest -m integration
         env:
           TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/apartment_test
+          DB_NAME: apartment_test
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          DB_HOST: localhost
+          DB_PORT: 5432
+          JWT_SECRET_KEY: ci-test-jwt-secret-not-for-production
       - run: uv run alembic check
         env:
           TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/apartment_test

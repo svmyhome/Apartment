@@ -1,6 +1,7 @@
 from os import getenv
 
-from sqlalchemy.engine import make_url
+from sqlalchemy import inspect, text
+from sqlalchemy.engine import Engine, make_url
 
 
 def get_test_database_url() -> str:
@@ -16,3 +17,23 @@ def get_test_database_url() -> str:
         )
 
     return database_url
+
+
+def truncate_test_tables(engine: Engine) -> None:
+    """Очищает все прикладные таблицы только в БД из TEST_DATABASE_URL."""
+    test_url = make_url(get_test_database_url())
+    if engine.url != test_url:
+        raise RuntimeError("Очистка разрешена только для TEST_DATABASE_URL.")
+
+    table_names = [
+        table_name
+        for table_name in inspect(engine).get_table_names()
+        if table_name != "alembic_version"
+    ]
+    if not table_names:
+        return
+
+    quote = engine.dialect.identifier_preparer.quote
+    tables = ", ".join(quote(table_name) for table_name in table_names)
+    with engine.begin() as connection:
+        connection.execute(text(f"TRUNCATE TABLE {tables} RESTART IDENTITY CASCADE"))
