@@ -8,6 +8,9 @@ from backend.app.core.config import get_settings
 from backend.app.db.base import Base
 from backend.app.db.testing import get_test_database_url
 from backend.app.models.account import Account  # noqa: F401
+from backend.app.models.project import Project  # noqa: F401
+from backend.app.models.purchase import Purchase  # noqa: F401
+from backend.app.models.room import Room  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
